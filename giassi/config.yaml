@@ -1,0 +1,36 @@
+# Configuration for Giassi scraper
+base_url: "https://www.giassi.com.br/"
+
+# Selectors
+selectors:
+  search_input: 'input[placeholder*="Pesquise"]'
+  product_items: '.vtex-search-result-3-x-galleryItem'
+  load_more:
+    - 'a:has-text("Mostrar mais")'
+    - 'a[rel="next"]'
+    - '.vtex-button:has-text("Mostrar mais")'
+    - 'a.vtex-button'
+  name: '.vtex-product-summary-2-x-productBrand'
+  price:
+    - '.vtex-product-summary-2-x-price_sellingPrice'
+    - '.vtex-product-price-1-x-sellingPriceValue'
+    - '.vtex-product-price-1-x-sellingPrice'
+    - '[class*="price"]'
+    - '[class*="Price"]'
+    - '.giassi-apps-custom-0-x-priceTotalUnita'
+  unit_price: '.giassi-apps-custom-0-x-priceTotalUnita'
+
+# Timeouts (in milliseconds)
+timeouts:
+  page_load: 30000
+  element_wait: 5000
+  load_more: 3000
+
+# Browser settings
+browser_args:
+  - '--disable-dev-shm-usage'
+  - '--no-sandbox'
+viewport:
+  width: 1920
+  height: 1080
+user_agent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
