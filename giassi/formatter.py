@@ -1,4 +1,5 @@
 class ProductFormatter:
+
     @staticmethod
     def format_results(results: dict) -> str:
         """
@@ -28,3 +29,4 @@ class ProductFormatter:
             response_text += "\n"
                 
         return response_text
+    

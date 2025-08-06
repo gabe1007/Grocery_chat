@@ -2,7 +2,7 @@ import logging
 from fastmcp import FastMCP
 from giassi.scraper import GiassiScraper
 from giassi.formatter import ProductFormatter
-from giassi.config_loader import Config
+from giassi.config import Config
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
