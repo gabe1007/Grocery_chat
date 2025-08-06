@@ -9,6 +9,7 @@ dependencies = [
     "mcp[cli]>=1.12.2",
     "mcpo>=0.0.16",
     "playwright>=1.54.0",
+    "python-dotenv>=1.1.1",
     "pyyaml>=6.0.2",
     "uvicorn>=0.35.0",
 ]

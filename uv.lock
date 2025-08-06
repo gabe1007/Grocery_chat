@@ -305,6 +305,7 @@ dependencies = [
     { name = "mcp", extra = ["cli"] },
     { name = "mcpo" },
     { name = "playwright" },
+    { name = "python-dotenv" },
     { name = "pyyaml" },
     { name = "uvicorn" },
 ]
@@ -315,6 +316,7 @@ requires-dist = [
     { name = "mcp", extras = ["cli"], specifier = ">=1.12.2" },
     { name = "mcpo", specifier = ">=0.0.16" },
     { name = "playwright", specifier = ">=1.54.0" },
+    { name = "python-dotenv", specifier = ">=1.1.1" },
     { name = "pyyaml", specifier = ">=6.0.2" },
     { name = "uvicorn", specifier = ">=0.35.0" },
 ]

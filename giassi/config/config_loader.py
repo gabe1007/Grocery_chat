@@ -1,9 +1,13 @@
+import os
 import yaml
-from typing import Dict, Any, List, Optional
+from typing import Dict, Any, List
 from pathlib import Path
+from dotenv import load_dotenv
+
+load_dotenv()
 
 class Config:
-    def __init__(self, config_path: str = "/home/gabriel/Documentos/giassi_mcp/giassi/config.yaml"):
+    def __init__(self, config_path: str = os.getenv("CONFIG_PATH")):
         self.config_path = Path(config_path)
         self._config = self._load_config()
 
