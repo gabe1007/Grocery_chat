@@ -3,7 +3,7 @@ from fastmcp import FastMCP
 from giassi.scraper import GiassiScraper
 from giassi.formatter import ProductFormatter
 from giassi.config import Config
-from angeloni_scraper import search_angeloni_products
+from angeloni.angeloni_scraper import search_angeloni_products
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
