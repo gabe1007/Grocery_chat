@@ -2,7 +2,7 @@ import asyncio
 import logging
 from typing import Dict, List
 from playwright.async_api import Page
-from .config import Config
+from .config import GiassiConfig
 from .element_utils import ElementUtils
 
 logger = logging.getLogger(__name__)
@@ -13,7 +13,7 @@ class ProductExtractor:
     Handles product search and data extraction.
     """
 
-    def __init__(self, config: Config):
+    def __init__(self, config: GiassiConfig):
         self.config = config
     
     async def search_products(self, page: Page, search_term: str):

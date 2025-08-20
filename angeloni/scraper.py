@@ -5,7 +5,7 @@ from playwright.async_api import Page
 from .browser_manager import BrowserManager
 from .product_extractor import ProductExtractor
 from .formatter import ProductFormatter
-from .config import Config
+from .config import AngeloniConfig
 
 logger = logging.getLogger(__name__)
 
@@ -13,8 +13,8 @@ class AngeloniScraper:
     """
     Main scraper class that coordinates the scraping process.
     """
-    def __init__(self, config: Config = None):
-        self.config = config or Config()
+    def __init__(self, config: AngeloniConfig = None):
+        self.config = config or AngeloniConfig()
         self.browser_manager = BrowserManager(self.config)
         self.product_extractor = ProductExtractor(self.config)
     
@@ -63,7 +63,7 @@ class AngeloniScraper:
 
 async def search_angeloni_products(search_term: str) -> str:
     """Search for products on Angeloni website."""
-    config = Config()
+    config = AngeloniConfig()
     scraper = AngeloniScraper(config)
     
     try:

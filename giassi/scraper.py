@@ -1,6 +1,6 @@
 import logging
 from typing import Dict
-from .config import Config
+from .config import GiassiConfig
 from .browser_manager import BrowserManager
 from .product_extractor import ProductExtractor
 
@@ -14,12 +14,12 @@ class GiassiScraper:
     Orchestrates the scraping process using specialized components for
     browser management and product extraction.
     """
-    
-    def __init__(self, config: Config = None):
+
+    def __init__(self, config: GiassiConfig = None):
         """
         Initialize the scraper with configuration and components.
         """
-        self.config = config or Config()
+        self.config = config or GiassiConfig()
         self.browser_manager = BrowserManager(self.config)
         self.product_extractor = ProductExtractor(self.config)
     

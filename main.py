@@ -2,18 +2,18 @@ import logging
 from fastmcp import FastMCP
 from giassi.scraper import GiassiScraper
 from giassi.formatter import ProductFormatter
-from giassi.config import Config
+from giassi.config import GiassiConfig
 from angeloni.scraper import AngeloniScraper
 from angeloni.formatter import ProductFormatter as AngeloniFormatter
-from angeloni.config import Config as AngeloniConfig
+from angeloni.config import AngeloniConfig
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 # Load configuration
-config = Config()
-angeloni_config = AngeloniConfig()  # Added this line
+config = GiassiConfig()
+angeloni_config = AngeloniConfig()
 
 # Create FastMCP server
 mcp = FastMCP("Product Search")
@@ -37,7 +37,7 @@ async def search_giassi(search_term: str) -> str:
         logger.error(f"Tool execution error: {e}")
         return f"❌ Error searching for products: {str(e)}"
     finally:
-        await scraper.close()  # Always close the browser
+        await scraper.close()
 
 @mcp.tool()
 async def search_angeloni(search_term: str) -> str:
@@ -50,15 +50,15 @@ async def search_angeloni(search_term: str) -> str:
     """
     logger.info(f"Searching Angeloni for: {search_term}")
     
-    scraper = AngeloniScraper(angeloni_config)  # Changed to use explicit config
+    scraper = AngeloniScraper(angeloni_config)
     try:
         results = await scraper.scrape_products(search_term.strip())
-        return AngeloniFormatter.format_results(results)  # Use AngeloniFormatter
+        return AngeloniFormatter.format_results(results)
     except Exception as e:
         logger.error(f"Angeloni tool execution error: {e}")
         return f"❌ Error searching Angeloni: {str(e)}"
     finally:
-        await scraper.close()  # Always close the browser
+        await scraper.close()
 
 if __name__ == "__main__":
     mcp.run()

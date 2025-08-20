@@ -2,13 +2,13 @@ import yaml
 from typing import Dict, Any, List
 from pathlib import Path
 
-class GiassiConfig:
+class AngeloniConfig:
     """
-    Configuration loader for application settings.
+    Configuration loader for Angeloni scraper settings.
     This class loads configuration settings from a YAML file and provides
     convenient property accessors for different configuration sections.
     The configuration file path can be specified during initialization,
-    or it will default to 'config.yaml' in the same directory as this script.
+    or it will default to 'angeloni_config.yaml' in the same directory as this script.
     """
     
     def __init__(self, config_path: str = None):
@@ -17,7 +17,7 @@ class GiassiConfig:
         """
         if config_path is None:
             script_dir = Path(__file__).parent
-            config_path = script_dir / "config.yaml"
+            config_path = script_dir / "angeloni_config.yaml"
         
         self.config_path = Path(config_path)
         self._config = self._load_config()

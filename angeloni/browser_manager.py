@@ -1,7 +1,7 @@
 import logging
 from typing import Optional
 from playwright.async_api import async_playwright, Browser, BrowserContext
-from .config import Config
+from .config import AngeloniConfig
 
 logger = logging.getLogger(__name__)
 
@@ -9,8 +9,8 @@ class BrowserManager:
     """
     Manages browser lifecycle and context creation.
     """
-    
-    def __init__(self, config: Config):
+
+    def __init__(self, config: AngeloniConfig):
         self.config = config
         self.browser: Optional[Browser] = None
         self.context: Optional[BrowserContext] = None

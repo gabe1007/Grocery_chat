@@ -1,3 +1,3 @@
-from .config_loader import Config
+from .config_loader import GiassiConfig
 
-__all__ = ["Config"]
+__all__ = ["GiassiConfig"]
