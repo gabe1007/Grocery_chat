@@ -2,18 +2,17 @@ import asyncio
 import logging
 from typing import Dict, List
 from playwright.async_api import Page
-from .config import GiassiConfig
+from config_loader import ScraperConfig
 from .element_utils import ElementUtils
 
 logger = logging.getLogger(__name__)
-
 
 class ProductExtractor:
     """
     Handles product search and data extraction.
     """
-
-    def __init__(self, config: GiassiConfig):
+    
+    def __init__(self, config: ScraperConfig):
         self.config = config
     
     async def search_products(self, page: Page, search_term: str):
@@ -24,15 +23,16 @@ class ProductExtractor:
         await asyncio.sleep(2)
         
         search_input = await page.wait_for_selector(
-            self.config.selectors["search_input"], 
+            self.config.selectors["search_input"],
             timeout=self.config.timeouts["element_wait"]
         )
+        
         await search_input.click()
         await search_input.fill(search_term)
         await page.keyboard.press('Enter')
         
         await page.wait_for_selector(
-            self.config.selectors["product_items"], 
+            self.config.selectors["product_items"],
             timeout=self.config.timeouts["element_wait"]
         )
         await asyncio.sleep(2)
@@ -42,23 +42,25 @@ class ProductExtractor:
         Load all products by clicking 'load more' until no more products.
         """
         previous_count = 0
+        
         while True:
             current_products = await page.query_selector_all(self.config.selectors["product_items"])
             current_count = len(current_products)
             
             if current_count == previous_count:
                 break
-                
+            
             previous_count = current_count
             
             load_button = await ElementUtils.find_element(
-                page, 
-                self.config.selectors["load_more"], 
+                page,
+                self.config.selectors["load_more"],
                 self.config.timeouts["load_more"]
             )
+            
             if not load_button:
                 break
-                
+            
             await load_button.scroll_into_view_if_needed()
             await load_button.click()
             await asyncio.sleep(self.config.timeouts["load_more"] / 1000)
@@ -93,4 +95,3 @@ class ProductExtractor:
                 continue
         
         return product_list
-    

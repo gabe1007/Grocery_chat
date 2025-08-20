@@ -2,18 +2,17 @@ import logging
 from fastmcp import FastMCP
 from giassi.scraper import GiassiScraper
 from giassi.formatter import ProductFormatter
-from giassi.config import GiassiConfig
 from angeloni.scraper import AngeloniScraper
 from angeloni.formatter import ProductFormatter as AngeloniFormatter
-from angeloni.config import AngeloniConfig
+from config_loader import ScraperConfig
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# Load configuration
-config = GiassiConfig()
-angeloni_config = AngeloniConfig()
+# Load configurations
+giassi_config = ScraperConfig('giassi_config.yaml') 
+angeloni_config = ScraperConfig('angeloni_config.yaml')
 
 # Create FastMCP server
 mcp = FastMCP("Product Search")
@@ -29,7 +28,7 @@ async def search_giassi(search_term: str) -> str:
     """
     logger.info(f"Searching for: {search_term}")
     
-    scraper = GiassiScraper(config)
+    scraper = GiassiScraper(giassi_config)
     try:
         results = await scraper.scrape_products(search_term.strip())
         return ProductFormatter.format_results(results)

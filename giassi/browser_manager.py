@@ -1,18 +1,18 @@
 import logging
 from typing import Optional
-from playwright.async_api import async_playwright, Browser, BrowserContext
-from .config import GiassiConfig
+from playwright.async_api import async_playwright, Browser, BrowserContext, Playwright
+from config_loader import ScraperConfig
 
 logger = logging.getLogger(__name__)
-
 
 class BrowserManager:
     """
     Manages browser lifecycle and context creation.
     """
     
-    def __init__(self, config: GiassiConfig):
+    def __init__(self, config: ScraperConfig):
         self.config = config
+        self.playwright: Optional[Playwright] = None
         self.browser: Optional[Browser] = None
         self.context: Optional[BrowserContext] = None
     
@@ -21,8 +21,8 @@ class BrowserManager:
         Initialize browser and context if not already done.
         """
         if not self.browser:
-            playwright = await async_playwright().start()
-            self.browser = await playwright.chromium.launch(
+            self.playwright = await async_playwright().start()
+            self.browser = await self.playwright.chromium.launch(
                 headless=True,
                 args=self.config.browser_args
             )
@@ -46,6 +46,10 @@ class BrowserManager:
         """
         if self.browser:
             await self.browser.close()
-            self.browser = None
-            self.context = None
-            logger.info("Browser closed")
+        if self.playwright:
+            await self.playwright.stop()
+        
+        self.browser = None
+        self.context = None
+        self.playwright = None
+        logger.info("Browser closed")

@@ -2,7 +2,7 @@ import asyncio
 import logging
 from typing import Dict, List
 from playwright.async_api import Page, ElementHandle
-from .config import AngeloniConfig
+from config_loader import ScraperConfig
 from .element_utils import ElementUtils
 
 logger = logging.getLogger(__name__)
@@ -11,7 +11,7 @@ class ProductExtractor:
     """
     Handles product search and data extraction for Angeloni.
     """
-    def __init__(self, config: AngeloniConfig):
+    def __init__(self, config: ScraperConfig):
         self.config = config
     
     async def search_products(self, page: Page, search_term: str):

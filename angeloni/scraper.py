@@ -1,11 +1,9 @@
-import asyncio
 import logging
-from typing import Dict, List
-from playwright.async_api import Page
+from typing import Dict
 from .browser_manager import BrowserManager
 from .product_extractor import ProductExtractor
 from .formatter import ProductFormatter
-from .config import AngeloniConfig
+from config_loader import ScraperConfig
 
 logger = logging.getLogger(__name__)
 
@@ -13,8 +11,8 @@ class AngeloniScraper:
     """
     Main scraper class that coordinates the scraping process.
     """
-    def __init__(self, config: AngeloniConfig = None):
-        self.config = config or AngeloniConfig()
+    def __init__(self, config: ScraperConfig = None):
+        self.config = config or ScraperConfig()
         self.browser_manager = BrowserManager(self.config)
         self.product_extractor = ProductExtractor(self.config)
     
@@ -63,7 +61,7 @@ class AngeloniScraper:
 
 async def search_angeloni_products(search_term: str) -> str:
     """Search for products on Angeloni website."""
-    config = AngeloniConfig()
+    config = ScraperConfig()
     scraper = AngeloniScraper(config)
     
     try:
