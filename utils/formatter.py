@@ -1,4 +1,4 @@
-class ProductFormatter:
+class Formatter:
 
     @staticmethod
     def format_results(results: dict) -> str:

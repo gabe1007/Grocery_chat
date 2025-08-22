@@ -2,7 +2,6 @@ import logging
 from typing import Dict
 from .browser_manager import BrowserManager
 from .product_extractor import ProductExtractor
-from .formatter import ProductFormatter
 from config_loader import ScraperConfig
 
 logger = logging.getLogger(__name__)
@@ -58,18 +57,4 @@ class AngeloniScraper:
         Close the browser and clean up resources.
         """
         await self.browser_manager.close()
-
-async def search_angeloni_products(search_term: str) -> str:
-    """Search for products on Angeloni website."""
-    config = ScraperConfig()
-    scraper = AngeloniScraper(config)
-    
-    try:
-        results = await scraper.scrape_products(search_term.strip())
-        return ProductFormatter.format_results(results)
-    except Exception as e:
-        logger.error(f"Angeloni scraping error: {e}")
-        return f"❌ Error searching Angeloni: {str(e)}"
-    finally:
-        await scraper.close()
         

@@ -1,9 +1,8 @@
 import logging
 from fastmcp import FastMCP
 from giassi.scraper import GiassiScraper
-from giassi.formatter import ProductFormatter
+from utils.formatter import Formatter
 from angeloni.scraper import AngeloniScraper
-from angeloni.formatter import ProductFormatter as AngeloniFormatter
 from config_loader import ScraperConfig
 
 # Set up logging
@@ -31,10 +30,10 @@ async def search_giassi(search_term: str) -> str:
     scraper = GiassiScraper(giassi_config)
     try:
         results = await scraper.scrape_products(search_term.strip())
-        return ProductFormatter.format_results(results)
+        return Formatter.format_results(results)
     except Exception as e:
         logger.error(f"Tool execution error: {e}")
-        return f"❌ Error searching for products: {str(e)}"
+        return f"Error searching for products: {str(e)}"
     finally:
         await scraper.close()
 
@@ -52,10 +51,10 @@ async def search_angeloni(search_term: str) -> str:
     scraper = AngeloniScraper(angeloni_config)
     try:
         results = await scraper.scrape_products(search_term.strip())
-        return AngeloniFormatter.format_results(results)
+        return Formatter.format_results(results)
     except Exception as e:
         logger.error(f"Angeloni tool execution error: {e}")
-        return f"❌ Error searching Angeloni: {str(e)}"
+        return f"Error searching Angeloni: {str(e)}"
     finally:
         await scraper.close()
 
