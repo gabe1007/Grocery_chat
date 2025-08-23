@@ -79,26 +79,38 @@ class ProductExtractor:
         """
         name = await ElementUtils.extract_text(product, self.config.selectors["name"])
         
-        price = await ElementUtils.extract_text(product, self.config.selectors["price"])
+        # Always try to construct the full price from integer and decimal components first
+        price = "Price not found"
         
-        # Special handling for price since it might need to be constructed from multiple elements
-        if price == "Price not found":
-            # Try to find price components and construct the full price
-            currency_integer = await product.query_selector('.vtex-product-price-1-x-currencyInteger')
-            if currency_integer:
-                integer_text = await currency_integer.text_content()
+        # Try to find price components and construct the full price
+        currency_integer = await product.query_selector('.vtex-product-price-1-x-currencyInteger')
+        if currency_integer:
+            integer_text = await currency_integer.text_content()
+            if integer_text:
+                integer_text = integer_text.strip()
                 
-                currency_symbol = await product.query_selector('.vtex-product-price-1-x-currencyContainer')
+                # Look for decimal part
                 decimal_part = await product.query_selector('.vtex-product-price-1-x-currencyFraction')
+                decimal_text = ""
+                if decimal_part:
+                    decimal_content = await decimal_part.text_content()
+                    if decimal_content:
+                        decimal_text = f",{decimal_content.strip()}"
                 
+                # Look for currency symbol
+                currency_symbol = await product.query_selector('.vtex-product-price-1-x-currencyContainer')
                 if currency_symbol:
                     symbol_text = await currency_symbol.text_content()
-                    price = f"{symbol_text} {integer_text}"
-                    if decimal_part:
-                        decimal_text = await decimal_part.text_content()
-                        price += f",{decimal_text}"
+                    if symbol_text:
+                        price = f"{symbol_text.strip()} {integer_text}{decimal_text}"
+                    else:
+                        price = f"R$ {integer_text}{decimal_text}"
                 else:
-                    price = f"R$ {integer_text}"
+                    price = f"R$ {integer_text}{decimal_text}"
+        
+        # If price construction failed, fall back to the original selector approach
+        if price == "Price not found":
+            price = await ElementUtils.extract_text(product, self.config.selectors["price"])
         
         unit_price = await ElementUtils.extract_text(product, self.config.selectors["unit_price"])
         
