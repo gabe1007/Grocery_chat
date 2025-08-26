@@ -3,6 +3,7 @@ import asyncio
 from fastmcp import FastMCP
 from giassi.scraper import GiassiScraper
 from utils.formatter import Formatter
+from utils.product_list import ProductList
 from angeloni.scraper import AngeloniScraper
 from config_loader import ScraperConfig
 
@@ -16,6 +17,9 @@ angeloni_config = ScraperConfig('angeloni_config.yaml')
 
 # Create FastMCP server
 mcp = FastMCP("Product Search")
+
+# Initialize product list manager
+product_list = ProductList()
 
 @mcp.tool()
 async def search_products(search_term: str) -> str:
@@ -88,6 +92,58 @@ async def search_products(search_term: str) -> str:
     except Exception as e:
         logger.error(f"Concurrent search error: {e}")
         return f"Error during concurrent search: {str(e)}"
+
+@mcp.tool()
+async def add_to_list(unidades: str, product_name: str, store: str, price: str) -> str:
+    """
+    Add a product to your shopping list
+    
+    Args:
+        product_name: Name of the product
+        store: Store name (e.g., 'Giassi', 'Angeloni')
+        price: Price of the product
+    
+    Returns:
+        Confirmation message
+    """
+    return product_list.add_product(unidades, product_name, store, price)
+
+@mcp.tool()
+async def view_list() -> str:
+    """
+    View all products in your shopping list
+    
+    Returns:
+        Formatted list of all products
+    """
+    return product_list.view_products()
+
+@mcp.tool()
+async def remove_from_list(product_name: str) -> str:
+    """
+    Remove a product from your shopping list
+    
+    Args:
+        product_name: Name of the product to remove
+    
+    Returns:
+        Confirmation message
+    """
+    return product_list.remove_product(product_name)
+
+@mcp.tool()
+async def update_unidades(product_name: str, new_unidades: str) -> str:
+    """
+    Update the unidades value for a product in your shopping list
+    
+    Args:
+        product_name: Name of the product to update
+        new_unidades: New unidades value
+    
+    Returns:
+        Confirmation message
+    """
+    return product_list.update_unidades(product_name, new_unidades)
 
 if __name__ == "__main__":
     mcp.run()
