@@ -1,0 +1,9 @@
+supermarkets:
+  - name: "Giassi América"
+    address: "R. Dr. João Colin, 762, Joinville, SC, Brasil"
+  - name: "Giassi Bucarein"
+    address: "R. Inácio Bastos, 173, Joinville, SC, Brasil"
+  - name: "Angeloni América"
+    address: "R. Dr. João Colin, 2500, Joinville, SC, Brasil"
+  - name: "Angeloni Centro"
+    address: "Rua 9 de Março, 774, Joinville, SC, Brasil"

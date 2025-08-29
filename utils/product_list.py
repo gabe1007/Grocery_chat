@@ -9,7 +9,7 @@ class ProductList:
     def __init__(self, file_path: str = "product_list.json"):
         self.file_path = file_path
     
-    def load_products(self) -> List[Dict]:
+    def _load_products(self) -> List[Dict]:
         """
         Load product list from JSON file
         """
@@ -21,7 +21,7 @@ class ProductList:
                 logger.warning(f"Could not load {self.file_path}, starting with empty list")
         return []
     
-    def save_products(self, products: List[Dict]) -> None:
+    def _save_products(self, products: List[Dict]) -> None:
         """
         Save product list to JSON file
         """
@@ -36,7 +36,7 @@ class ProductList:
         """
         Add a product to the list
         """
-        products = self.load_products()
+        products = self._load_products()
         
         # Check if product already exists
         for product in products:
@@ -51,21 +51,21 @@ class ProductList:
             'price': price
         }
         products.append(new_product)
-        self.save_products(products)
-        
+        self._save_products(products)
+
         return f"Added '{product_name}' from {store} (R$ {price}) to your list"
     
     def remove_product(self, product_name: str) -> str:
         """
         Remove a product from the list
         """
-        products = self.load_products()
+        products = self._load_products()
         
         # Find and remove product
         for i, product in enumerate(products):
             if product.get('name') == product_name:
                 removed_product = products.pop(i)
-                self.save_products(products)
+                self._save_products(products)
                 return f"Removed '{removed_product['name']}' from {removed_product['store']} from your list"
         
         return f"Product '{product_name}' not found in your list"
@@ -74,7 +74,7 @@ class ProductList:
         """
         View all products in the list
         """
-        products = self.load_products()
+        products = self._load_products()
         
         if not products:
             return "Your product list is empty"
@@ -90,14 +90,14 @@ class ProductList:
         """
         Update the unidades value for a product
         """
-        products = self.load_products()
+        products = self._load_products()
         
         # Find and update product
         for product in products:
             if product.get('name') == product_name:
                 old_unidades = product.get('unidades', 'N/A')
                 product['unidades'] = new_unidades
-                self.save_products(products)
+                self._save_products(products)
                 return f"Updated '{product_name}' unidades from {old_unidades} to {new_unidades}"
         
         return f"Product '{product_name}' not found in your list"

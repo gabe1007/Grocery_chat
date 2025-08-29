@@ -6,6 +6,7 @@ from utils.formatter import Formatter
 from utils.product_list import ProductList
 from angeloni.scraper import AngeloniScraper
 from config_loader import ScraperConfig
+from utils.calc_distance import FindDistance
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
@@ -144,6 +145,33 @@ async def update_unidades(product_name: str, new_unidades: str) -> str:
         Confirmation message
     """
     return product_list.update_unidades(product_name, new_unidades)
+
+@mcp.tool()
+async def find_nearest_supermarket(address: str) -> str:
+    """
+    Find the closest supermarket to a given address
+    
+    Args:
+        address: The user's address (e.g., 'Rua das Flores, 123, Joinville, SC')
+    
+    Returns:
+        Information about the closest supermarket including name, address, and distance
+    """
+    finder = FindDistance()
+    try:
+        result = finder.find_closest_supermarket(address)
+
+        if result is None:
+            return f"Could not find location for address: {address}. Please check the address and try again."
+        
+        return (f"Closest supermarket to your address:\n"
+               f"📍 {result['name']}\n"
+               f"📋 Address: {result['address']}\n"
+               f"📏 Distance: {result['distance_km']} km")
+        
+    except Exception as e:
+        logger.error(f"Error finding closest supermarket: {e}")
+        return f"Error finding closest supermarket: {str(e)}"
 
 if __name__ == "__main__":
     mcp.run()
