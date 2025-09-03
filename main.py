@@ -1,5 +1,6 @@
 import logging
 import asyncio
+import json
 from fastmcp import FastMCP
 from giassi.scraper import GiassiScraper
 from utils.formatter import Formatter
@@ -7,6 +8,7 @@ from utils.product_list import ProductList
 from angeloni.scraper import AngeloniScraper
 from config_loader import ScraperConfig
 from utils.calc_distance import FindDistance
+from utils.price_calculator import sum_prices_by_store
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
@@ -172,6 +174,16 @@ async def find_nearest_supermarket(address: str) -> str:
     except Exception as e:
         logger.error(f"Error finding closest supermarket: {e}")
         return f"Error finding closest supermarket: {str(e)}"
+
+@mcp.tool()
+async def calculate_shopping_totals() -> str:
+    """
+    Calculate the total price of products in the shopping list grouped by supermarket
+    
+    Returns:
+        Total prices separated by supermarket with grand total
+    """
+    return sum_prices_by_store()
 
 if __name__ == "__main__":
     mcp.run()
