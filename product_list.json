@@ -1,0 +1,38 @@
+[
+  {
+    "unidades": "2",
+    "name": "Refrigerante sem Açúcar Coca-Cola Zero Garrafa 2l",
+    "store": "Giassi",
+    "price": "10,90"
+  },
+  {
+    "unidades": "2",
+    "name": "Refrigerante COCA COLA Original 2l",
+    "store": "Angeloni",
+    "price": "10,99"
+  },
+  {
+    "unidades": "3 kg",
+    "name": "Maminha da Alcatra Bovina Resfriada sem Osso Giassi Vácuo Kg",
+    "store": "Giassi",
+    "price": "47,90"
+  },
+  {
+    "unidades": "3 kg",
+    "name": "Alcatra da Maminha FRIBOI Bife kg",
+    "store": "Angeloni",
+    "price": "62,90"
+  },
+  {
+    "unidades": "3",
+    "name": "Açúcar Refinado ALTO ALEGRE 1kg",
+    "store": "Angeloni",
+    "price": "4,39"
+  },
+  {
+    "unidades": "2",
+    "name": "Açúcar Refinado Duçula Especial Pacote 1kg",
+    "store": "Giassi",
+    "price": "4,48"
+  }
+]

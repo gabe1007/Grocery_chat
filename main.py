@@ -166,10 +166,13 @@ async def find_nearest_supermarket(address: str) -> str:
         if result is None:
             return f"Could not find location for address: {address}. Please check the address and try again."
         
-        return (f"Closest supermarket to your address:\n"
-               f"📍 {result['name']}\n"
-               f"📋 Address: {result['address']}\n"
-               f"📏 Distance: {result['distance_km']} km")
+        response = "All supermarkets sorted by distance from your address:\n\n"
+        for i, supermarket in enumerate(result, 1):
+            response += (f"{i}. 📍 {supermarket['name']}\n"
+                        f"   📋 Address: {supermarket['address']}\n"
+                        f"   📏 Distance: {supermarket['distance_km']} km\n\n")
+        
+        return response.strip()
         
     except Exception as e:
         logger.error(f"Error finding closest supermarket: {e}")

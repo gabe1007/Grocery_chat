@@ -64,16 +64,16 @@ class FindDistance:
         except Exception:
             return None
 
-    def find_closest_supermarket(self, user_address: str) -> Optional[Dict[str, str]]:
+    def find_closest_supermarket(self, user_address: str) -> Optional[List[Dict[str, str]]]:
         """
-        Find the closest supermarket to a given address.
+        Calculate distances from user address to all supermarkets.
         
         Args:
             user_address: The user's address as a string
             
         Returns:
-            Dict with closest supermarket name, address and distance in km,
-            or None if no supermarket found or address invalid
+            List of dicts with supermarket name, address and distance in km,
+            sorted by distance (closest first), or None if address invalid
         """
         if not user_address or not user_address.strip():
             return None
@@ -84,18 +84,17 @@ class FindDistance:
                 return None
         except Exception:
             return None
-            
-        closest_supermarket = None
-        min_distance = float('inf')
+        
+        distances = []
         
         for supermarket in self.supermarkets:
             distance = self._calculate_distance(user_address, supermarket["address"])
-            if distance and distance < min_distance:
-                min_distance = distance
-                closest_supermarket = {
+            if distance:
+                distances.append({
                     "name": supermarket["name"],
                     "address": supermarket["address"],
                     "distance_km": round(distance, 2)
-                }
+                })
         
-        return closest_supermarket
+        distances.sort(key=lambda x: x["distance_km"])
+        return distances if distances else None

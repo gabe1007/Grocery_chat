@@ -29,7 +29,7 @@ def sum_prices_by_store(file_path: str = 'product_list.json') -> str:
             price_value = float(price_clean)
             
             # Extract unidades value
-            unidades = float(unidades_str)
+            unidades = float(unidades_str.strip().split()[0])
             
             # Calculate total for this product (price * unidades)
             total_product_value = price_value * unidades
